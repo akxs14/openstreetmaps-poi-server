@@ -5,8 +5,8 @@ DROP TABLE gas_stations;
 CREATE TABLE gas_stations
 (
   id serial NOT NULL,
-  lat text,
-  lon text,
+  lat decimal,
+  lon decimal,
   brand text,
   operator text,
   name text,
@@ -25,6 +25,7 @@ CREATE TABLE gas_stations
   payment_maestro text,
   payment_dkv text,
   payment_uta text,
+  payment_fuel_cards text,
   fuel_diesel text,
   fuel_gtl_diesel text,
   fuel_hgv_diesel text,    
