@@ -20,7 +20,7 @@ class Parser
   def parse(input, output)
     out = File.new(output, "w")
     begin
-      # out.write "[\n"
+      # out.write "[\n"p
       reader = Nokogiri::XML::Reader(File.new(input))
       while reader = parse_node(reader, out)
       end
@@ -72,7 +72,7 @@ class Parser
 
   def save_gas_station entry
     puts "Save #{entry["name"]}"
-    ap entry
+    # ap entry
     insert_gas_station entry
   end
 
@@ -108,8 +108,8 @@ class Parser
 
   def insert_gas_station entry
     @db_conn.exec_prepared("insert_gas_station", [
-      entry[:lat] || "0.0",
-      entry[:lon] || "0.0",
+      entry[:lat].to_f || 0.0,
+      entry[:lon].to_f || 0.0,
       entry["brand"] || "",
       entry["operator"] || "",
       entry["name"] || "",
@@ -128,6 +128,7 @@ class Parser
       entry["payment:maestro"] || "no",
       entry["payment:dkv"] || "no",
       entry["payment:uta"] || "no",
+      entry["payment:fuel_cards"] || "no",
       entry["fuel:diesel"] || "no",
       entry["fuel:GTL_diesel"] || "no",
       entry["fuel:HGV_diesel"] || "no",
@@ -155,14 +156,14 @@ class Parser
       "lat, lon, brand, operator, name, " + 
       "addr_country, addr_city, addr_street, addr_housenumber, addr_postcode, " +
       "phone, shop, wheelchair, opening_hours, " +
-      "payment_cash, payment_mastercard, payment_visa, payment_maestro, payment_dkv, payment_uta, " +
+      "payment_cash, payment_mastercard, payment_visa, payment_maestro, payment_dkv, payment_uta, payment_fuel_cards, " +
       "fuel_diesel, fuel_GTL_diesel, fuel_HGV_diesel, " + "
       fuel_octane_91, fuel_octane_95, fuel_octane_98, fuel_octane_100, fuel_octane_102, " +
       "fuel_1_25, fuel_1_50, fuel_biodiesel, fuel_svo, fuel_e10, fuel_e85, fuel_biogas, fuel_lpg, " +
       "fuel_cng, fuel_LH2, fuel_adblue) " +
       "values ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, " +
       "$11, $12, $13, $14, $15, $16, $17, $18, $19, $20, $21, $22, $23, $24, $25, " +
-      "$26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39)")
+      "$26, $27, $28, $29, $30, $31, $32, $33, $34, $35, $36, $37, $38, $39, $40)")
   end
 
 end
