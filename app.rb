@@ -12,8 +12,8 @@ get "/poi/:type" do
 
   {
     "type" => params['type'],
-    "center_lat" => params[:center_lat],
-    "center_lon" => params[:center_lon],
-    "radius" => params[:radius]
+    "center_lat" => params[:center_lat].to_f,
+    "center_lon" => params[:center_lon].to_f,
+    "radius" => params[:radius].to_f
    }.to_json
 end
