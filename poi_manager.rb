@@ -1,10 +1,34 @@
-
+require 'rubygems'
+require 'pg'
 
 class POIManager
 
   @@R = 6371e3
 
+  def initialize
+    @db = PG.connect(dbname: 'ats_suite')
+  end
+
+  def get_pois type
+    case type
+    when 'gas_stations'
+      pois = get_gas_stations
+    else
+      pois = ["Unkown POI type"]
+    end
+    pois
+  end
+
+
   private
+
+  def get_gas_stations
+    gas_stations = []
+    @db.exec("SELECT * FROM gas_stations LIMIT 10") do |result|
+      result.each {|row| gas_stations << row }
+    end
+    gas_stations
+  end
 
   def toRads degs
     degs / 360 * 2 * Math.PI
