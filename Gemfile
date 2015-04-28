@@ -8,4 +8,3 @@ gem 'awesome_print'
 gem 'nokogiri'
 
 gem 'pg'
-gem 'dm-postgres-adapter'
